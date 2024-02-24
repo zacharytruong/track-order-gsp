@@ -1,52 +1,56 @@
+import { Camelized, camelize, camelizeKeys } from 'humps';
+
+import { doc } from './_components/gsp';
+import FormInput from './_components/FormInput';
+
 type OrderStatus = 'drying' | 'washing' | 'ready' | 'delivered' | 'cancelled';
-interface Order {
+
+export interface Order {
   orderNumber: number;
   customerName?: string;
   orderStatus?: OrderStatus;
 }
 
-const order: Order | undefined = {
-  orderNumber: 123,
-  customerName: 'John Doe',
-  orderStatus: 'drying'
+const getDoc = async () => {
+  await doc.loadInfo();
+  return doc;
 };
 
-export default function Home() {
+export default async function Home() {
+  const gsp = await getDoc();
+  const sheet = gsp.sheetsByIndex[0];
+  const res = await sheet.getRows();
+  const rows = res.map((row) => camelizeKeys(row.toObject()) as Order);
+
   return (
     <main className="flex flex-col items-center justify-between p-24 gap-4">
       <div>
-        <form className="gap-4 flex flex-col items-center">
-          <label htmlFor="order-input">Enter your order number</label>
-          <div>
-            <input name="order-input" id="order-input" className="m-5" />
-            <input type="submit" name="submit" id="submit" />
-          </div>
-        </form>
+        <FormInput rows={rows}/>
       </div>
 
-      {order && (
-        <div>
-          <table>
+      <div>
+        <table>
+          <tbody>
             <tr>
               <th className="p-6">Order Number</th>
               <th className="p-6">Customer Name</th>
               <th className="p-6">Status</th>
             </tr>
-            {!order && (
-              <tr>
-                <td className="p-6 text-left">No order</td>
-              </tr>
-            )}
-            {order && (
-              <tr>
-                <td className="p-6 text-left">{order.orderNumber}</td>
-                <td className="p-6 text-center">{order.customerName}</td>
-                <td className="p-6 text-center">{order.orderStatus}</td>
-              </tr>
-            )}
-          </table>
-        </div>
-      )}
+            {/* {!order && (
+            <tr>
+              <td className="p-6 text-left">No order</td>
+            </tr>
+          )}
+          {order && (
+            <tr>
+              <td className="p-6 text-left"># {order.orderNumber}</td>
+              <td className="p-6 text-center">{order.customerName}</td>
+              <td className="p-6 text-center">{order.orderStatus}</td>
+            </tr>
+          )} */}
+          </tbody>
+        </table>
+      </div>
     </main>
   );
 }
