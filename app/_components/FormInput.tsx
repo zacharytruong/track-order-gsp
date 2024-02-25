@@ -48,7 +48,7 @@ const FormInput = () => {
             name="submit"
             id="submit"
             className={`m-5 border-gray-400 border-2 rounded-md p-2 hover:border-gray-700 ${
-              isLoading ? 'cursor-not-allowed' : 'cursor-pointer'
+              isLoading ? 'cursor-wait' : 'cursor-pointer'
             }`}
           >
             {isLoading ? 'Loading...' : 'Submit'}
