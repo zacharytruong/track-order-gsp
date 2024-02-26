@@ -1,4 +1,4 @@
-import FormInput from './_components/FormInput';
+import FormInput from '../components/FormInput';
 
 export default async function Home() {
   return (

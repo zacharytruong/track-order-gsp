@@ -1,13 +1,6 @@
-import { doc } from '@/app/_components/gsp';
+import { doc } from '@/gsp';
 import { camelizeKeys } from 'humps';
-
-type OrderStatus = 'drying' | 'washing' | 'ready' | 'delivered' | 'cancelled';
-
-export interface Order {
-  orderNumber: number;
-  customerName?: string;
-  orderStatus?: OrderStatus;
-}
+import { Order } from '@/types';
 
 export async function GET(req: Request, res: Response) {
   const url = new URL(req.url);
@@ -19,6 +12,6 @@ export async function GET(req: Request, res: Response) {
   const rows = gspRows.map((row) => camelizeKeys(row.toObject()) as Order);
   const row = rows.filter((row) => Number(row.orderNumber) === Number(param));
   return Response.json({
-    order: row[0]
+    order: row[0],
   });
 }

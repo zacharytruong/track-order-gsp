@@ -1,10 +1,7 @@
 'use client';
 
-import { ChangeEvent, ChangeEventHandler, FormEvent, useState } from 'react';
-
-import { Order } from '../api/order/route';
-
-const baseURL = process.env.BASE_URL;
+import { Order } from '@/types';
+import { ChangeEvent, FormEvent, useState } from 'react';
 
 const FormInput = () => {
   const [value, setValue] = useState<string>('');
@@ -31,10 +28,7 @@ const FormInput = () => {
 
   return (
     <div>
-      <form
-        className="gap-4 flex flex-col items-center"
-        onSubmit={handleSubmit}
-      >
+      <form className="gap-4 flex flex-col items-center" onSubmit={handleSubmit}>
         <label htmlFor="order-input">Enter your order number</label>
         <div>
           <input
