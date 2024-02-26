@@ -1,7 +1,8 @@
 'use client';
 
-import { Order } from '@/types';
 import { ChangeEvent, FormEvent, useState } from 'react';
+
+import { Order } from '@/types';
 
 const FormInput = () => {
   const [value, setValue] = useState<string>('');
